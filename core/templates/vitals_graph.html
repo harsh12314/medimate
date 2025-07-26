@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Vitals Graph | MediMate{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">Vitals Over Time</h2>
+
+<canvas id="vitalsChart" height="100"></canvas>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('vitalsChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: {{ dates|safe }},
+      datasets: [
+        {
+          label: 'Blood Pressure',
+          data: {{ bp_values|safe }},
+          borderColor: 'red',
+          backgroundColor: 'rgba(255,0,0,0.1)',
+          tension: 0.3
+        },
+        {
+          label: 'Sugar Level',
+          data: {{ sugar_values|safe }},
+          borderColor: 'blue',
+          backgroundColor: 'rgba(0,0,255,0.1)',
+          tension: 0.3
+        },
+        {
+          label: 'Weight',
+          data: {{ weight_values|safe }},
+          borderColor: 'green',
+          backgroundColor: 'rgba(0,255,0,0.1)',
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top'
+        },
+        title: {
+          display: true,
+          text: 'Vitals Trend Over Time'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: false
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

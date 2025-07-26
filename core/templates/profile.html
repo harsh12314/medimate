@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Profile | MediMate{% endblock %}
+{% block content %}
+
+<h2 class="mb-4">Welcome, {{ profile.user.username }}</h2>
+
+<div class="row g-4">
+
+  <!-- Profile Info -->
+  <div class="col-md-4">
+    <div class="card border-primary shadow-sm">
+      <div class="card-header bg-primary text-white">Profile Info</div>
+      <div class="card-body">
+        <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
+        <p><strong>Emergency Contact:</strong> {{ profile.emergency_contact }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medicines -->
+  <div class="col-md-8">
+    <div class="card border-success shadow-sm">
+      <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <span>Medicines</span>
+        <a class="btn btn-light btn-sm" href="{% url 'add_medicine' %}">+ Add</a>
+      </div>
+      <div class="card-body p-0">
+        {% if medicines %}
+          <table class="table table-striped mb-0">
+            <thead><tr><th>Name</th><th>Dosage</th><th>Frequency</th></tr></thead>
+            <tbody>
+              {% for med in medicines %}
+              <tr><td>{{ med.name }}</td><td>{{ med.dosage }}</td><td>{{ med.frequency }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="p-3">No medicines added.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Appointments -->
+  <div class="col-md-6">
+    <div class="card border-info shadow-sm">
+      <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+        <span>Appointments</span>
+        <a class="btn btn-light btn-sm" href="{% url 'add_appointment' %}">+ Add</a>
+      </div>
+      <div class="card-body p-0">
+        {% if appointments %}
+          <table class="table table-sm table-hover mb-0">
+            <thead><tr><th>Doctor</th><th>Date</th></tr></thead>
+            <tbody>
+              {% for a in appointments %}
+              <tr><td>{{ a.doctor_name }}</td><td>{{ a.date }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="p-3">No upcoming appointments.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Vitals -->
+  <div class="col-md-6">
+    <div class="card border-warning shadow-sm">
+      <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+        <span>Recent Vitals</span>
+        <a class="btn btn-dark btn-sm" href="{% url 'add_vitals' %}">+ Add</a>
+      </div>
+      <div class="card-body p-0">
+        {% if vitals %}
+          <table class="table table-bordered mb-0">
+            <thead><tr><th>Date</th><th>BP</th><th>Sugar</th><th>Weight</th></tr></thead>
+            <tbody>
+              {% for v in vitals %}
+              <tr><td>{{ v.date }}</td><td>{{ v.blood_pressure }}</td><td>{{ v.sugar_level }}</td><td>{{ v.weight }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p class="p-3">No vitals recorded.</p>
+        {% endif %}
+        <div class="p-2"><a href="{% url 'vitals_graph' %}" class="btn btn-outline-dark btn-sm">📊 View Graph</a></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

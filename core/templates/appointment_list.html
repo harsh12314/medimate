@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Appointments | MediMate{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Your Appointments</h2>
+  <a href="{% url 'add_appointment' %}" class="btn btn-primary">+ Add Appointment</a>
+</div>
+
+{% if appointments %}
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-striped mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Purpose</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in appointments %}
+            <tr>
+              <td>{{ app.doctor_name }}</td>
+              <td>{{ app.date }}</td>
+              <td>{{ app.purpose }}</td>
+              <td>
+                <a href="{% url 'edit_appointment' app.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'delete_appointment' app.pk %}" class="btn btn-sm btn-danger">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-info">You have no upcoming appointments.</div>
+{% endif %}
+
+{% endblock %}
+

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Home | MediMate{% endblock %}
+{% block content %}
+<h2>Signup</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.username.label }} {{ form.username }} <br>
+    {{ form.email.label }} {{ form.email }} <br>
+    {{ form.password1.label }} {{ form.password1 }} <br>
+    {{ form.password2.label }} {{ form.password2 }} <br>
+    {{ form.date_of_birth.label }} {{ form.date_of_birth }} <br>
+    {{ form.emergency_contact.label }} {{ form.emergency_contact }} <br>
+    <button type="submit">Sign Up</button>
+</form>
+{% endblock %}

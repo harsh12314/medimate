@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Your Medicines | MediMate{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Your Medicines</h2>
+  <a href="{% url 'add_medicine' %}" class="btn btn-primary">+ Add Medicine</a>
+</div>
+
+{% if medicines %}
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-striped mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Dosage</th>
+            <th>Frequency</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for med in medicines %}
+            <tr>
+              <td>{{ med.name }}</td>
+              <td>{{ med.dosage }}</td>
+              <td>{{ med.frequency }}</td>
+              <td>
+                <a href="{% url 'edit_medicine' med.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'delete_medicine' med.pk %}" class="btn btn-sm btn-danger">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-info">You haven't added any medicines yet.</div>
+{% endif %}
+
+{% endblock %}

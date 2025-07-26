@@ -1,0 +1,14 @@
+.env
+
+*.pyc
+__pycache__/
+
+
+db.sqlite3
+.env
+
+
+.vscode/
+
+*/migrations/*.pyc
+*/migrations/__pycache__/

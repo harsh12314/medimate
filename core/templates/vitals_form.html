@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Add Vitals | MediMate{% endblock %}
+{% block content %}
+
+<div class="card shadow-sm">
+  <div class="card-header bg-warning text-dark">
+    Add Vitals
+  </div>
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-success">Save</button>
+      <a href="{% url 'vitals_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

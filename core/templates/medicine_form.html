@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow rounded">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">{{ form.instance.pk|yesno:"Edit Medicine,Add Medicine" }}</h4>
+    </div>
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="id_name" class="form-label">Medicine Name</label>
+          {{ form.name }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_dosage" class="form-label">Dosage</label>
+          {{ form.dosage }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_frequency" class="form-label">Frequency</label>
+          {{ form.frequency }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_start_date" class="form-label">Start Date</label>
+          {{ form.start_date }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_end_date" class="form-label">End Date</label>
+          {{ form.end_date }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_next_dose_time" class="form-label">Next Dose Time</label>
+          {{ form.next_dose_time }}
+        </div>
+
+        <div class="mb-3">
+          <label for="id_notes" class="form-label">Notes</label>
+          {{ form.notes }}
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Save Medicine</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

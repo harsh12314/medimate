@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Vitals | MediMate{% endblock %}
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Vitals History</h2>
+  <a href="{% url 'add_vitals' %}" class="btn btn-primary">+ Add Vitals</a>
+</div>
+
+{% if vitals %}
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <table class="table table-bordered table-striped mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th>Date</th>
+            <th>Blood Pressure</th>
+            <th>Sugar Level</th>
+            <th>Weight (kg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in vitals %}
+          <tr>
+            <td>{{ v.date }}</td>
+            <td>{{ v.blood_pressure }}</td>
+            <td>{{ v.sugar_level }}</td>
+            <td>{{ v.weight }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-info">No vitals data available yet.</div>
+{% endif %}
+
+{% endblock %}

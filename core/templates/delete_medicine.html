@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Delete Medicine | MediMate{% endblock %}
+{% block content %}
+
+<div class="card shadow-sm">
+  <div class="card-header bg-danger text-white">Confirm Delete</div>
+  <div class="card-body">
+    <p>Are you sure you want to delete <strong>{{ medicine.name }}</strong>?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, Delete</button>
+      <a href="{% url 'medicine_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
