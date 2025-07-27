@@ -9,3 +9,8 @@ services:
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: medimate.settings
+envVars:
+  - key: DJANGO_SETTINGS_MODULE
+    value: medimate.settings
+  - key: RENDER
+    value: True
