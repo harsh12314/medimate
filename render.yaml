@@ -5,7 +5,10 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       python manage.py migrate
-    startCommand: gunicorn medimate.wsgi:application
+    startCommand: |
+      python manage.py migrate
+      gunicorn medimate.wsgi:application
+
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: medimate.settings
