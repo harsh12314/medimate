@@ -139,3 +139,10 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+import os
+from decouple import config
+
+# Add this to the bottom or where CSRF settings are configured
+CSRF_TRUSTED_ORIGINS = [
+    'https://medimate-production-fefa.up.railway.app'
+]
