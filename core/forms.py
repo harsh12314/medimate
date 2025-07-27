@@ -1,19 +1,18 @@
 from django import forms
-from .models import Appointment
-from .models import Medicine
-from .models import Vitals
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django import forms
-from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import Appointment, Medicine, Vitals, UserProfile
 
 
 class CustomSignupForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
     email = forms.EmailField(required=True)
-    date_of_birth = forms.DateField(required=False)
+    
+    date_of_birth = forms.DateField(
+        required=False,
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+
     emergency_contact = forms.CharField(max_length=20, required=False)
 
     def clean_username(self):
@@ -21,7 +20,6 @@ class CustomSignupForm(forms.Form):
         if User.objects.filter(username=username).exists():
             raise forms.ValidationError("Username already taken. Please choose a different one.")
         return username
-
 
 
 class MedicineForm(forms.ModelForm):
@@ -33,6 +31,7 @@ class MedicineForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'type': 'date'}),
             'next_dose_time': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+
 
 class AppointmentForm(forms.ModelForm):
     class Meta:

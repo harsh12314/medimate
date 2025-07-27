@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.urls import reverse
 from .models import UserProfile, Medicine, Appointment, Vitals
 from .forms import CustomSignupForm, MedicineForm, AppointmentForm, VitalsForm
 
@@ -30,7 +31,7 @@ def signup_view(request):
                 emergency_contact=emergency_contact
             )
             login(request, user)
-            return redirect('core:profile')
+            return redirect(reverse('core:profile'))
     else:
         form = CustomSignupForm()
     return render(request, 'signup.html', {'form': form})
@@ -51,11 +52,11 @@ def profile_view(request):
     })
 
 
-
 @login_required
 def medicine_list(request):
     medicines = Medicine.objects.filter(user=request.user)
     return render(request, 'medicine_list.html', {'medicines': medicines})
+
 
 @login_required
 def add_medicine(request):
@@ -65,10 +66,11 @@ def add_medicine(request):
             medicine = form.save(commit=False)
             medicine.user = request.user
             medicine.save()
-            return redirect('core:medicine_list')
+            return redirect(reverse('core:medicine_list'))
     else:
         form = MedicineForm()
     return render(request, 'medicine_form.html', {'form': form})
+
 
 @login_required
 def edit_medicine(request, pk):
@@ -77,17 +79,18 @@ def edit_medicine(request, pk):
         form = MedicineForm(request.POST, instance=medicine)
         if form.is_valid():
             form.save()
-            return redirect('core:medicine_list')
+            return redirect(reverse('core:medicine_list'))
     else:
         form = MedicineForm(instance=medicine)
     return render(request, 'medicine_form.html', {'form': form})
+
 
 @login_required
 def delete_medicine(request, pk):
     medicine = get_object_or_404(Medicine, pk=pk, user=request.user)
     if request.method == 'POST':
         medicine.delete()
-        return redirect('core:medicine_list')
+        return redirect(reverse('core:medicine_list'))
     return render(request, 'delete_medicine.html', {'medicine': medicine})
 
 
@@ -95,6 +98,7 @@ def delete_medicine(request, pk):
 def appointment_list(request):
     appointments = Appointment.objects.filter(user=request.user).order_by('date')
     return render(request, 'appointment_list.html', {'appointments': appointments})
+
 
 @login_required
 def add_appointment(request):
@@ -104,10 +108,11 @@ def add_appointment(request):
             appointment = form.save(commit=False)
             appointment.user = request.user
             appointment.save()
-            return redirect('core:appointment_list')
+            return redirect(reverse('core:appointment_list'))
     else:
         form = AppointmentForm()
     return render(request, 'appointment_form.html', {'form': form})
+
 
 @login_required
 def edit_appointment(request, pk):
@@ -116,17 +121,18 @@ def edit_appointment(request, pk):
         form = AppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
-            return redirect('core:appointment_list')
+            return redirect(reverse('core:appointment_list'))
     else:
         form = AppointmentForm(instance=appointment)
     return render(request, 'appointment_form.html', {'form': form})
+
 
 @login_required
 def delete_appointment(request, pk):
     appointment = get_object_or_404(Appointment, pk=pk, user=request.user)
     if request.method == 'POST':
         appointment.delete()
-        return redirect('core:appointment_list')
+        return redirect(reverse('core:appointment_list'))
     return render(request, 'delete_appointment.html', {'appointment': appointment})
 
 
@@ -134,6 +140,7 @@ def delete_appointment(request, pk):
 def vitals_list(request):
     vitals = Vitals.objects.filter(user=request.user).order_by('date')
     return render(request, 'vitals_list.html', {'vitals': vitals})
+
 
 @login_required
 def add_vitals(request):
@@ -143,7 +150,7 @@ def add_vitals(request):
             vitals = form.save(commit=False)
             vitals.user = request.user
             vitals.save()
-            return redirect('core:vitals_list')
+            return redirect(reverse('core:vitals_list'))
     else:
         form = VitalsForm()
     return render(request, 'vitals_form.html', {'form': form})
