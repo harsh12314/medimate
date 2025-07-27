@@ -4,11 +4,10 @@ services:
     env: python
     buildCommand: |
       pip install -r requirements.txt
-      python manage.py makemigrations --noinput
-      python manage.py migrate --noinput
     startCommand: ./run_on_render.sh
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: medimate.settings
       - key: RENDER
-        value: True
+        value: true
+
