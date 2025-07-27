@@ -4,7 +4,7 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2>Your Appointments</h2>
-  <a href="{% url 'add_appointment' %}" class="btn btn-primary">+ Add Appointment</a>
+  <a href="{% url 'core:add_appointment' %}" class="btn btn-primary">+ Add Appointment</a>
 </div>
 
 {% if appointments %}
@@ -26,8 +26,8 @@
               <td>{{ app.date }}</td>
               <td>{{ app.purpose }}</td>
               <td>
-                <a href="{% url 'edit_appointment' app.pk %}" class="btn btn-sm btn-warning">Edit</a>
-                <a href="{% url 'delete_appointment' app.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                <a href="{% url 'core:edit_appointment' app.pk %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'core:delete_appointment' app.pk %}" class="btn btn-sm btn-danger">Delete</a>
               </td>
             </tr>
           {% endfor %}
@@ -40,4 +40,3 @@
 {% endif %}
 
 {% endblock %}
-

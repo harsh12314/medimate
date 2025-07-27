@@ -1,24 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import UserProfile, Medicine
-from .forms import MedicineForm
-from .models import Appointment
-from .forms import AppointmentForm
-from .models import Vitals
-from .forms import VitalsForm
-from .forms import CustomSignupForm
+from .models import UserProfile, Medicine, Appointment, Vitals
+from .forms import CustomSignupForm, MedicineForm, AppointmentForm, VitalsForm
 
 import json
 from django.core.serializers.json import DjangoJSONEncoder
-# Homepage
+
+
 def home(request):
     return render(request, 'home.html')
 
-# Signup view
-from .forms import CustomSignupForm
+
 def signup_view(request):
     if request.method == 'POST':
         form = CustomSignupForm(request.POST)
@@ -30,27 +24,24 @@ def signup_view(request):
             emergency_contact = form.cleaned_data['emergency_contact']
 
             user = User.objects.create_user(username=username, email=email, password=password)
-
             UserProfile.objects.create(
                 user=user,
                 date_of_birth=dob,
                 emergency_contact=emergency_contact
             )
-
             login(request, user)
-            return redirect('profile')
+            return redirect('core:profile')
     else:
         form = CustomSignupForm()
     return render(request, 'signup.html', {'form': form})
 
 
-# Profile view
 @login_required
 def profile_view(request):
-    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    profile, _ = UserProfile.objects.get_or_create(user=request.user)
     medicines = Medicine.objects.filter(user=request.user)
     appointments = Appointment.objects.filter(user=request.user).order_by('date')
-    vitals = Vitals.objects.filter(user=request.user).order_by('-date')[:5]  # latest 5
+    vitals = Vitals.objects.filter(user=request.user).order_by('-date')[:5]
 
     return render(request, 'profile.html', {
         'profile': profile,
@@ -60,7 +51,7 @@ def profile_view(request):
     })
 
 
-# Medicine views
+
 @login_required
 def medicine_list(request):
     medicines = Medicine.objects.filter(user=request.user)
@@ -74,7 +65,7 @@ def add_medicine(request):
             medicine = form.save(commit=False)
             medicine.user = request.user
             medicine.save()
-            return redirect('medicine_list')
+            return redirect('core:medicine_list')
     else:
         form = MedicineForm()
     return render(request, 'medicine_form.html', {'form': form})
@@ -86,7 +77,7 @@ def edit_medicine(request, pk):
         form = MedicineForm(request.POST, instance=medicine)
         if form.is_valid():
             form.save()
-            return redirect('medicine_list')
+            return redirect('core:medicine_list')
     else:
         form = MedicineForm(instance=medicine)
     return render(request, 'medicine_form.html', {'form': form})
@@ -96,7 +87,7 @@ def delete_medicine(request, pk):
     medicine = get_object_or_404(Medicine, pk=pk, user=request.user)
     if request.method == 'POST':
         medicine.delete()
-        return redirect('medicine_list')
+        return redirect('core:medicine_list')
     return render(request, 'delete_medicine.html', {'medicine': medicine})
 
 
@@ -113,7 +104,7 @@ def add_appointment(request):
             appointment = form.save(commit=False)
             appointment.user = request.user
             appointment.save()
-            return redirect('appointment_list')
+            return redirect('core:appointment_list')
     else:
         form = AppointmentForm()
     return render(request, 'appointment_form.html', {'form': form})
@@ -125,7 +116,7 @@ def edit_appointment(request, pk):
         form = AppointmentForm(request.POST, instance=appointment)
         if form.is_valid():
             form.save()
-            return redirect('appointment_list')
+            return redirect('core:appointment_list')
     else:
         form = AppointmentForm(instance=appointment)
     return render(request, 'appointment_form.html', {'form': form})
@@ -135,7 +126,7 @@ def delete_appointment(request, pk):
     appointment = get_object_or_404(Appointment, pk=pk, user=request.user)
     if request.method == 'POST':
         appointment.delete()
-        return redirect('appointment_list')
+        return redirect('core:appointment_list')
     return render(request, 'delete_appointment.html', {'appointment': appointment})
 
 
@@ -152,7 +143,7 @@ def add_vitals(request):
             vitals = form.save(commit=False)
             vitals.user = request.user
             vitals.save()
-            return redirect('vitals_list')
+            return redirect('core:vitals_list')
     else:
         form = VitalsForm()
     return render(request, 'vitals_form.html', {'form': form})
@@ -161,7 +152,6 @@ def add_vitals(request):
 @login_required
 def vitals_graph(request):
     vitals = Vitals.objects.filter(user=request.user).order_by('date')
-
     dates = [v.date.strftime('%Y-%m-%d') for v in vitals]
     bp_values = [v.blood_pressure for v in vitals]
     sugar_levels = [v.sugar_level for v in vitals]

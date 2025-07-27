@@ -9,12 +9,6 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-#
-import os
-
-# Automatically turn off debug mode on Render
-DEBUG = os.environ.get('RENDER') is None
-#
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,7 +24,7 @@ SECRET_KEY = 'django-insecure-(5%cx9)()vd%th#1+usn$b2)8f!)d8mteum)8i443iwi(1wh-t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['medimate-bjeu.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['*']
 
 
 

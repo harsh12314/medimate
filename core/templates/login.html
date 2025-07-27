@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
-{% block title %}Home | MediMate{% endblock %}
-{% block content %}<h2>Login</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-</form>
+{% block title %}Login | MediMate{% endblock %}
+{% block content %}
+
+<div class="container mt-5">
+  <div class="card shadow p-4">
+    <h2 class="mb-4 text-center">Login</h2>
+
+    <form method="post" action="{% url 'core:login' %}">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label_tag }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="text-danger">{{ field.errors|striptags }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary w-100">Log In</button>
+    </form>
+
+    <div class="text-center mt-3">
+      <small>Don't have an account? <a href="{% url 'core:signup' %}">Sign up here</a>.</small>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
