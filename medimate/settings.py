@@ -26,6 +26,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://exemplary-playfulness-production-17ec.up.railway.app',
+]
 
 
 
@@ -143,6 +146,3 @@ import os
 from decouple import config
 
 # Add this to the bottom or where CSRF settings are configured
-CSRF_TRUSTED_ORIGINS = [
-    'https://medimate-production-fefa.up.railway.app'
-]
