@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-(5%cx9)()vd%th#1+usn$b2)8f!)d8mteum)8i443iwi(1wh-t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['medimate.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['medimate-bjeu.onrender.com', '127.0.0.1', 'localhost']
 
 
 
