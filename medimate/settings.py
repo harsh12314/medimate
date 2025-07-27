@@ -30,7 +30,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://exemplary-playfulness-production-17ec.up.railway.app',
 ]
 
-
+LOGIN_REDIRECT_URL = 'core:profile'
+LOGOUT_REDIRECT_URL = 'core:login'
 
 # Application definition
 
