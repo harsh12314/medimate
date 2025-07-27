@@ -2,19 +2,26 @@ from django import forms
 from .models import Appointment
 from .models import Medicine
 from .models import Vitals
-
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django import forms
+from django.contrib.auth.models import User
+from .models import UserProfile
 
-class CustomSignupForm(UserCreationForm):
+
+class CustomSignupForm(forms.Form):
+    username = forms.CharField(max_length=150)
+    password = forms.CharField(widget=forms.PasswordInput)
     email = forms.EmailField(required=True)
-    date_of_birth = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
-    emergency_contact = forms.CharField(required=False)
+    date_of_birth = forms.DateField(required=False)
+    emergency_contact = forms.CharField(max_length=20, required=False)
 
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2', 'date_of_birth', 'emergency_contact']
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError("Username already taken. Please choose a different one.")
+        return username
+
 
 
 class MedicineForm(forms.ModelForm):

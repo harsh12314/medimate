@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.contrib.auth.models import User
 from .models import UserProfile, Medicine
 from .forms import MedicineForm
 from .models import Appointment
@@ -17,15 +18,25 @@ def home(request):
     return render(request, 'home.html')
 
 # Signup view
+from .forms import CustomSignupForm
 def signup_view(request):
     if request.method == 'POST':
         form = CustomSignupForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            # Save UserProfile fields
-            date_of_birth = form.cleaned_data.get('date_of_birth')
-            emergency_contact = form.cleaned_data.get('emergency_contact')
-            UserProfile.objects.create(user=user, date_of_birth=date_of_birth, emergency_contact=emergency_contact)
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            dob = form.cleaned_data['date_of_birth']
+            emergency_contact = form.cleaned_data['emergency_contact']
+
+            user = User.objects.create_user(username=username, email=email, password=password)
+
+            UserProfile.objects.create(
+                user=user,
+                date_of_birth=dob,
+                emergency_contact=emergency_contact
+            )
+
             login(request, user)
             return redirect('profile')
     else:
