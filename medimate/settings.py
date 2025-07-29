@@ -147,4 +147,4 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 import os
 from decouple import config
 
-# Add this to the bottom or where CSRF settings are configured
+
