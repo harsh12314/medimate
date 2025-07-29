@@ -18,10 +18,10 @@ Features
 Tech Stack
 ----------
 - Django 5.x
-- SQLite (default) / Railway-compatible DB
+- SQLite (default)
 - Bootstrap 5
 - Chart.js
-- Replit/Railway deployment support
+- Railway deployment support
 
 Setup Instructions (Local)
 --------------------------
