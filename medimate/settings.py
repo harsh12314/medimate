@@ -27,7 +27,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://exemplary-playfulness-production-17ec.up.railway.app',
+    'https://medimate-mt1g.onrender.com',
 ]
 
 LOGIN_URL = 'core:login'
