@@ -3,7 +3,7 @@ MediMate - Personal Health and Medicine Tracker
 MediMate is a Django-based web application that helps users track their medicines, appointments, vitals (like blood pressure, sugar level, and weight), and view interactive health graphs.
 
 🚀 Features
------------
+----------
 
 ✅ User authentication (Signup/Login/Logout)
 
